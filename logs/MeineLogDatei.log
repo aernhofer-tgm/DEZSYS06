@@ -1,3 +1,4 @@
-WARN - Meine Warn-Meldung
-ERROR - Meine Error-Meldung
-FATAL - Meine Fatal-Meldung
+<2016-01-27 11:33:30> INFO : [main]: Meine Info-Meldung
+<2016-01-27 11:33:30> WARN : [main]: Meine Warn-Meldung
+<2016-01-27 11:33:30> ERROR: [main]: Meine Error-Meldung
+<2016-01-27 11:33:30> FATAL: [main]: Meine Fatal-Meldung

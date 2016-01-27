@@ -8,13 +8,14 @@ public class Main
     public static void main( String[] args )
     {
         try {
-            SimpleLayout layout = new SimpleLayout();
+            PatternLayout layout = new PatternLayout( "<%d{yyyy-MM-dd HH:mm:ss}> %-5p: [%t]: %m%n" );
             ConsoleAppender consoleAppender = new ConsoleAppender( layout );
             logger.addAppender( consoleAppender );
+            //Layout, File, keep old data
             FileAppender fileAppender = new FileAppender( layout, "logs/MeineLogDatei.log", false );
             logger.addAppender( fileAppender );
             // ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
-            logger.setLevel( Level.WARN );
+            logger.setLevel( Level.INFO );
         } catch( Exception ex ) {
             System.out.println( ex );
         }
