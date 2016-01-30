@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/out/apache-log4j-1.2.17/log4j-1.2.17.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/activemq-all-5.8.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,7 +19,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/out/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/postgresql-9.4.1207.jre6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -28,7 +28,16 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/out/postgresql-9.4.1207.jre6.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/apache-log4j-1.2.17/log4j-1.2.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

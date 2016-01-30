@@ -1,11 +1,11 @@
-package example.jdbc;//STEP 1. Import required packages
+package ernhofer;//STEP 1. Import required packages
 import java.sql.*;
 
 /*
             Es muss SERIALIZABLE sein!!
  */
 
-public class FirstExample {
+public class MySQL {
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://debian/wahl";
@@ -29,30 +29,24 @@ public class FirstExample {
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
-            sql = "XA START 'xatest';";
+            sql = "XA START 'x';";
             ResultSet rs = stmt.executeQuery(sql);
+            stmt.executeQuery("XA PREPARE 'x'");
 
-            //STEP 5: Extract data from result set
-            while(rs.next()){
-                System.out.println(rs.getString(1));
-                //Retrieve by column name
-                int id  = rs.getInt("bnr");
-                int age = rs.getInt("wnr");
-                String first = rs.getString("bname");
-
-                //Display values
-                System.out.print("ID: " + id);
-                System.out.print(", Age: " + age);
-                System.out.print(", First: " + first);
-                System.out.print("\n");
-            }
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
             conn.close();
         }catch(SQLException se){
             //Handle errors for JDBC
-            se.printStackTrace();
+            switch (se.getErrorCode()){
+                case 1399:
+                    System.out.println("!!!!!The command cannot be executed when global transaction is in the  ACTIVE state!!!!!");
+                    break;
+                default:
+                    System.out.println(se.getErrorCode());
+                    se.printStackTrace();
+            }
         }catch(Exception e){
             //Handle errors for Class.forName
             e.printStackTrace();

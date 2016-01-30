@@ -48,3 +48,6 @@ Temporary Items
 
 #My gitignore
 .idea
+lib
+out
+activemq-data
