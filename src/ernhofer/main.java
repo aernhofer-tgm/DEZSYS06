@@ -1,21 +1,17 @@
 package ernhofer;
 
-import ernhofer.connection.jms.Producer;
-import ernhofer.connection.jms.Subscriber;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.TextMessage;
+import ernhofer.transactionManager.TransactionManager;
 
 /**
  * Created by andie on 30.01.2016.
  */
 public class main {
     public static void main(String args[]){
+        /*
 
         Subscriber s = new Subscriber() {
             @Override
-            public String excecuteCallback(Message message) {
+            public String executeCallback(Message message) {
                 try {
                     if (message instanceof TextMessage) {
                         TextMessage textMessage = (TextMessage) message;
@@ -44,5 +40,21 @@ public class main {
 
         p.close();
         s.close();
+*/
+
+        TransactionManager tm = new TransactionManager();
+        //tm.start();
+        tm.read();
+        //tm.interrupt();
+        System.out.println("Geben Sie etwas ein!");
+        /*
+        try {
+            Thread.sleep(1000000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tm.end();
+        */
+        System.out.print("ende!!!!!!!!!!!!");
     }
 }

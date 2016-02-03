@@ -43,7 +43,7 @@ public abstract class Subscriber implements ConSettings{
     }
 
     public void listen(){
-        MessageListener listener = message -> excecuteCallback(message);
+        MessageListener listener = message -> executeCallback(message);
         try {
             this.consumer.setMessageListener(listener);
         } catch (JMSException e) {
@@ -59,6 +59,6 @@ public abstract class Subscriber implements ConSettings{
         }
     }
 
-    public abstract String excecuteCallback(Message message);
+    public abstract String executeCallback(Message message);
 
 }
