@@ -1,5 +1,7 @@
 package ernhofer.transactionManager;
 
+import ernhofer.connection.jms.Producer;
+
 import java.util.Scanner;
 
 /**
@@ -8,8 +10,10 @@ import java.util.Scanner;
 public class TransactionManager extends Thread{
 
     private boolean running;
+    private Producer producer;
 
     public TransactionManager(){
+        producer = new Producer();
         running=true;
     }
 
@@ -26,12 +30,14 @@ public class TransactionManager extends Thread{
     }
 
     public void begin(){
+        producer.connect();
         this.start();
         this.read();
     }
 
     public void end(){
         running = false;
+        producer.close();
     }
 
     public void read(){
@@ -43,7 +49,7 @@ public class TransactionManager extends Thread{
                 while (scanner.hasNext()&&running) {
                     String token = scanner.next();
                     System.out.println(token);
-
+                    producer.send(token+";");
                     // check if line contains "exit"
                     //TODO: Contains auf equals aendern!!!!!
                     if (token.toLowerCase().contains("exit")) {
