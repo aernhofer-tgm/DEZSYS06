@@ -13,7 +13,6 @@ import javax.jms.TextMessage;
 public class main {
     public static void main(String args[]){
 
-
         Subscriber s = new Subscriber() {
             @Override
             public String executeCallback(Message message) {
@@ -32,20 +31,8 @@ public class main {
             }
         };
 
-
         s.connect();
         s.listen();
-
-        /*
-        Producer p = new Producer();
-        p.connect();
-        p.send("hallo");
-        System.out.println("Sent message: 'hallo'");
-
-
-        p.close();
-        s.close();
-*/
 
         TransactionManager tm = new TransactionManager();
         tm.begin();
@@ -56,6 +43,7 @@ public class main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.print("Subscriber schließen");
         s.close();
     }
 }

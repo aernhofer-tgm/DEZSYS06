@@ -49,13 +49,14 @@ public class TransactionManager extends Thread{
                 while (scanner.hasNext()&&running) {
                     String token = scanner.next();
                     System.out.println(token);
-                    producer.send(token+";");
                     // check if line contains "exit"
                     //TODO: Contains auf equals aendern!!!!!
                     if (token.toLowerCase().contains("exit")) {
                         end();
                         System.out.println("Programm wird beendet!");
                         break;
+                    }else {
+                        producer.send(token + ";");
                     }
                 }
                 if (scanner != null) {
