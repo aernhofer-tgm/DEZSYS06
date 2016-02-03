@@ -1,8 +1,6 @@
-package ernhofer;
+package ernhofer.Station;
 
-import ernhofer.connection.jdbc.MySQLConnection;
 import ernhofer.connection.jms.Subscriber;
-import ernhofer.transactionManager.TransactionManager;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -10,12 +8,16 @@ import javax.jms.TextMessage;
 import java.sql.SQLException;
 
 /**
- * Created by andie on 30.01.2016.
+ * Created by andie on 03.02.2016.
  */
-public class main {
-    public static void main(String args[]){
+public class Station{
 
-        Subscriber s = new Subscriber() {
+    private Subscriber subscriber;
+    Connection connection;
+
+    public Station(Connection connection) {
+        this.connection = connection;
+        subscriber = new Subscriber() {
             @Override
             public String executeCallback(Message message) {
                 try {
@@ -23,6 +25,8 @@ public class main {
                         TextMessage textMessage = (TextMessage) message;
                         System.out.println("Received message: '"
                                 + textMessage.getText() + "'");
+                        String query = textMessage.getText();
+                        execute(query);
                         return textMessage.getText();
                     }
                 } catch (JMSException e) {
@@ -32,31 +36,22 @@ public class main {
                 return null;
             }
         };
+    }
 
-        s.connect();
-        s.listen();
+    public void connect(){
+        subscriber.connect();
+        connection.connect();
+    }
 
-        TransactionManager tm = new TransactionManager();
-        tm.begin();
-        System.out.println("Geben Sie etwas ein!");
+    public void listen(){
+        subscriber.listen();
+    }
 
+    public void execute(String query){
         try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.print("Subscriber schließen");
-        s.close();
-
-
-        String query = "SELECT * FROM bezirk";
-        MySQLConnection mysql = new MySQLConnection();
-        mysql.connect();
-        try {
-            mysql.print(mysql.execute(query));
+            connection.print(connection.execute(query));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        mysql.close();
     }
 }

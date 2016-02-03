@@ -1,4 +1,4 @@
-package ernhofer;//STEP 1. Import required packages
+package example.jdbc;//STEP 1. Import required packages
 import java.sql.*;
 
 /*
