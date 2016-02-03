@@ -43,18 +43,7 @@ public class main {
 */
 
         TransactionManager tm = new TransactionManager();
-        //tm.start();
-        tm.read();
-        //tm.interrupt();
+        tm.begin();
         System.out.println("Geben Sie etwas ein!");
-        /*
-        try {
-            Thread.sleep(1000000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        tm.end();
-        */
-        System.out.print("ende!!!!!!!!!!!!");
     }
 }

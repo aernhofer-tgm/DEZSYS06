@@ -7,7 +7,6 @@ import java.util.Scanner;
  */
 public class TransactionManager extends Thread{
 
-    private String code;
     private boolean running;
 
     public TransactionManager(){
@@ -17,7 +16,12 @@ public class TransactionManager extends Thread{
     @Override
     public void run(){
         while(running){
-
+            try {
+                sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(running);
         }
     }
 
@@ -39,9 +43,12 @@ public class TransactionManager extends Thread{
                 while (scanner.hasNext()&&running) {
                     String token = scanner.next();
                     System.out.println(token);
+
                     // check if line contains "exit"
+                    //TODO: Contains auf equals aendern!!!!!
                     if (token.toLowerCase().contains("exit")) {
-                        running=false;
+                        end();
+                        System.out.println("Programm wird beendet!");
                         break;
                     }
                 }
