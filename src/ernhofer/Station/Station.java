@@ -134,6 +134,7 @@ public class Station{
     }
 
     public void close(){
+        producer.send("abmelden");
         subscriber.close();
         producer.close();
         connection.close();

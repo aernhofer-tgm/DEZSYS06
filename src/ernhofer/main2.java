@@ -70,9 +70,10 @@ public class main2 {
         t.setName("Console Input");
         t.start();
 
-
-
-
         System.out.println("Geben Sie etwas ein!");
     }
 }
+
+//TODO: TM anzahl consumer beachten!
+//TODO: Logging für jede Station und TM einzeln
+//TODO: TM Timeout beachten

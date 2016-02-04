@@ -67,6 +67,10 @@ public class TransactionManager extends Thread{
                 TextMessage textMessage = (TextMessage) message;
                 switch (textMessage.getText()){
                     case "anmelden":
+                        this.anzahlConsumer++;
+                        break;
+                    case "abmelden":
+                        this.anzahlConsumer--;
                         break;
                     case "ACK":
                         producer.send("commit");
