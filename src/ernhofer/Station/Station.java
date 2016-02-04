@@ -54,4 +54,9 @@ public class Station{
             e.printStackTrace();
         }
     }
+
+    public void close(){
+        subscriber.close();
+        connection.close();
+    }
 }

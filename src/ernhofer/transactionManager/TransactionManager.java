@@ -1,6 +1,8 @@
 package ernhofer.transactionManager;
 
 import ernhofer.connection.jms.Producer;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
@@ -9,6 +11,8 @@ import java.util.Scanner;
  */
 public class TransactionManager extends Thread{
 
+
+    private static final Logger logger = LogManager.getLogger(TransactionManager.class.getName());
     private boolean running;
     private Producer producer;
 
@@ -25,14 +29,14 @@ public class TransactionManager extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println(running);
+            //System.out.println(running);
         }
     }
 
     public void begin(){
         producer.connect();
         this.start();
-        this.read();
+        //this.read();
     }
 
     public void end(){
@@ -41,31 +45,10 @@ public class TransactionManager extends Thread{
     }
 
     public void read(){
-        Runnable ra = new Runnable() {
-            @Override
-            public void run() {
-                Scanner scanner = new Scanner(System.in);
-                scanner.useDelimiter(";");
-                while (scanner.hasNext()&&running) {
-                    String token = scanner.next();
-                    System.out.println(token);
-                    // check if line contains "exit"
-                    //TODO: Contains auf equals aendern!!!!!
-                    if (token.toLowerCase().contains("exit")) {
-                        end();
-                        System.out.println("Programm wird beendet!");
-                        break;
-                    }else {
-                        producer.send(token + ";");
-                    }
-                }
-                if (scanner != null) {
-                    scanner.close();
-                }
 
-            }
-        };
-        Thread t = new Thread(ra);
-        t.start();
+    }
+
+    public void send(String message){
+        producer.send(message);
     }
 }
