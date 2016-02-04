@@ -74,6 +74,7 @@ public class MySQLConnection implements ernhofer.Station.Connection{
                 }
                 System.out.println("");
             }
+            System.out.print("\n");
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -17,19 +17,19 @@ public class main {
 
         Subscriber s = new Subscriber() {
             @Override
-            public String executeCallback(Message message) {
+            public void executeCallback(Message message) {
                 try {
                     if (message instanceof TextMessage) {
                         TextMessage textMessage = (TextMessage) message;
                         System.out.println("Received message: '"
                                 + textMessage.getText() + "'");
-                        return textMessage.getText();
+                        //return textMessage.getText();
                     }
                 } catch (JMSException e) {
                     System.out.println("Caught:" + e);
                     e.printStackTrace();
                 }
-                return null;
+                //return null;
             }
         };
 

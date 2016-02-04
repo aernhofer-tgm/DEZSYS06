@@ -9,8 +9,10 @@ public class Producer implements ConSettings {
     private MessageProducer producer;
     private TextMessage message;
     private Topic t;
+    private String topic;
 
     public Producer(){
+        this.topic = ConSettings.topic;
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         try {
             this.connection = connectionFactory.createConnection();
@@ -35,7 +37,7 @@ public class Producer implements ConSettings {
         try {
             session = this.connection.createSession(false,
                     Session.AUTO_ACKNOWLEDGE);
-            this.t = session.createTopic(topic);
+            this.t = session.createTopic(this.topic);
             this.producer = session.createProducer(t);
             this.message = session.createTextMessage();
         } catch (JMSException e) {
@@ -60,5 +62,9 @@ public class Producer implements ConSettings {
         } catch (JMSException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setTopic(String topic){
+        this.topic = topic;
     }
 }

@@ -31,15 +31,14 @@ public class main2 {
 
         logger.info("START");
 
+        TransactionManager tm = new TransactionManager();
+        tm.begin();
+
         MySQLConnection mc = new MySQLConnection();
 
         Station station = new Station(mc);
         station.connect();
         station.listen();
-
-
-        TransactionManager tm = new TransactionManager();
-        tm.begin();
 
         Runnable ra = new Runnable() {
             @Override
