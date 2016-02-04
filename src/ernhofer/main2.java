@@ -49,7 +49,7 @@ public class main2 {
                 scanner.useDelimiter(";");
                 while (scanner.hasNext()) {
                     String token = scanner.next();
-                    System.out.println(token);
+                    //System.out.println(token);
                     // check if line contains "exit"
                     //TODO: Contains auf equals aendern!!!!! -> schwer weil token moeglicherweisse \n besitzt
                     if (token.toLowerCase().contains("exit")) {

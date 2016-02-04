@@ -11,4 +11,5 @@ public interface Connection {
     public ResultSet execute(String query) throws SQLException;
     public String print(ResultSet rs);
     public void close();
+    public String getAdress();
 }

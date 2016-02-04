@@ -32,10 +32,12 @@ public abstract class Subscriber implements ConSettings{
         try {
             Session session = connection.createSession(false,
                     Session.AUTO_ACKNOWLEDGE);
+
             this.t = session.createTopic(topic);
             this.consumer = session.createConsumer(t);
-            session = connection.createSession(false,
-                    Session.AUTO_ACKNOWLEDGE);
+
+
+
         } catch (JMSException e) {
             e.printStackTrace();
         }

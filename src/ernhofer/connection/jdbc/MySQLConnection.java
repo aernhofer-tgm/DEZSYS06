@@ -100,4 +100,8 @@ public class MySQLConnection implements ernhofer.Station.Connection{
             e.printStackTrace();
         }
     }
+
+    public String getAdress(){
+        return ADDRESS;
+    }
 }
