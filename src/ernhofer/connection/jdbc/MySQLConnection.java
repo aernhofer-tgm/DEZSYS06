@@ -24,7 +24,21 @@ public class MySQLConnection implements ernhofer.Station.Connection{
         DB = "wahl";
         USER = "wahl";
         PASS = "wahl";
-        DB_URL = "jdbc:mysql://debian/wahl";
+        DB_URL = "jdbc:mysql://"+ADDRESS+"/"+DB;
+        //STEP 2: Register JDBC driver
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public MySQLConnection(String address){
+        ADDRESS = address;
+        DB = "wahl";
+        USER = "wahl";
+        PASS = "wahl";
+        DB_URL = "jdbc:mysql://"+ADDRESS+"/"+DB;
         //STEP 2: Register JDBC driver
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -34,7 +48,7 @@ public class MySQLConnection implements ernhofer.Station.Connection{
     }
 
     public void connect(){
-        System.out.println("Connecting to database...");
+        System.out.println("Connecting to database..."+DB_URL);
         try {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             System.out.println("Creating statement...");
@@ -45,12 +59,17 @@ public class MySQLConnection implements ernhofer.Station.Connection{
     }
 
     public ResultSet execute(String query) throws SQLException {
-        return stmt.executeQuery(query);
+        if(query.toLowerCase().contains("select")) {
+            return stmt.executeQuery(query);
+        }else{
+            stmt.executeUpdate(query);
+            return null;
+        }
     }
 
     public String print(ResultSet rs){
-        ResultSetMetaData rsmd = null;
         try {
+            ResultSetMetaData rsmd = null;
             rsmd = rs.getMetaData();
 
             printColTypes(rs);
@@ -77,7 +96,10 @@ public class MySQLConnection implements ernhofer.Station.Connection{
             System.out.print("\n");
             rs.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Keine Ausgabe Moeglich!!!!!!!!!!!!!!!!!!!!");
+            //e.printStackTrace();
+        }catch (java.lang.NullPointerException e){
+            System.out.println("Nichts zum ausgeben da...");
         }
         return null;
     }

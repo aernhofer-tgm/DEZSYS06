@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -45,13 +46,13 @@ public class Station{
                             //Erfolgreich
                             //TODO
                             producer.send("ACK");
-                            System.out.println("Transaktion erfolgreich");
+                            System.out.println("Transaktion erfolgreich Station: "+Thread.currentThread().getName());
                             //doCommit();
                         }else{
                             //Fehlgeschlagen
                             //TODO
                             producer.send("NCK");
-                            System.out.println("Transaktion fehlgeschlagen");
+                            System.out.println("Transaktion fehlgeschlagen"+Thread.currentThread().getName());
                             //doAbort();
                         }
                         //return textMessage.getText();
@@ -88,7 +89,8 @@ public class Station{
     public boolean transaction(String query){
         try {
             connection.execute("XA START \"dezsys06\"");
-            connection.print(connection.execute(query));
+            ResultSet rm = connection.execute(query);
+            connection.print(rm);
             connection.execute("XA END \"dezsys06\"");
             connection.execute("XA PREPARE \"dezsys06\"");
             return true;
@@ -104,7 +106,7 @@ public class Station{
                     logger.error("Die angegebene Tabelle ist nicht vorhanden!");
                     break;
                 default:
-                    System.out.println("Errorcode: "+e.getErrorCode());
+                    System.out.println("Errorcode: "+e.getErrorCode() + "von Station: "+Thread.currentThread().getName());
                     e.printStackTrace();
                     break;
             }

@@ -9,6 +9,8 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -34,11 +36,16 @@ public class main2 {
         TransactionManager tm = new TransactionManager();
         tm.begin();
 
-        MySQLConnection mc = new MySQLConnection();
+        Station[] stationen = new Station[2];
 
-        Station station = new Station(mc);
-        station.connect();
-        station.listen();
+        stationen[0] = new Station(new MySQLConnection());
+        stationen[1] = new Station(new MySQLConnection("192.168.48.237"));
+
+        for(Station station:stationen) {
+            station.connect();
+            station.listen();
+        }
+
 
         Runnable ra = new Runnable() {
             @Override
@@ -54,7 +61,9 @@ public class main2 {
                     if (token.toLowerCase().contains("exit")) {
                         logger.info("Programm wird druch den Befehl '"+token+"' beendet");
                         tm.end();
-                        station.close();
+                        for(Station station:stationen) {
+                            station.close();
+                        }
                         break;
                     }else {
                         tm.send(token);

@@ -18,6 +18,8 @@ public class TransactionManager extends Thread{
     private static final Logger logger = LogManager.getLogger(TransactionManager.class.getName());
     private boolean running;
     private int anzahlConsumer;
+    private int ack;
+    private int nck;
     private Producer producer;
     private Subscriber subscriber;
 
@@ -31,6 +33,8 @@ public class TransactionManager extends Thread{
         };
         subscriber.setTopic("antwort");
         anzahlConsumer = 0;
+        ack=0;
+        nck=0;
         running=true;
     }
 
@@ -38,10 +42,22 @@ public class TransactionManager extends Thread{
     public void run(){
         while(running){
             try {
-                sleep(5000);
+                sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            if(ack+nck==anzahlConsumer&&anzahlConsumer>0){
+                System.out.println("ACK: "+ack+", NCK: "+nck);
+                if(ack==anzahlConsumer){
+                    producer.send("commit");
+                }else{
+                    producer.send("abort");
+                }
+                ack=0;
+                nck=0;
+            }
+
             //System.out.println(running);
         }
     }
@@ -67,16 +83,16 @@ public class TransactionManager extends Thread{
                 TextMessage textMessage = (TextMessage) message;
                 switch (textMessage.getText()){
                     case "anmelden":
-                        this.anzahlConsumer++;
+                        anmelden();
                         break;
                     case "abmelden":
-                        this.anzahlConsumer--;
+                        abmelden();
                         break;
                     case "ACK":
-                        producer.send("commit");
+                        ack++;
                         break;
                     case "NCK":
-                        producer.send("abort");
+                        nck++;
                         break;
                     default:
                         System.out.println("TM Received message: '"
@@ -94,10 +110,9 @@ public class TransactionManager extends Thread{
         producer.send(message);
     }
 
-    /*
-
     public void anmelden(){
         this.anzahlConsumer++;
+        logger.info("neue Verbindung");
     }
 
     public void abmelden(){
@@ -108,5 +123,4 @@ public class TransactionManager extends Thread{
     public void answer(){
 
     }
-    */
 }

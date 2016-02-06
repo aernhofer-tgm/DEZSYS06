@@ -1,5 +1,6 @@
-2016-02-04 21:11:49 | INFO  | ernhofer.main2 [main] | START
-2016-02-04 21:11:49 | WARN  | ernhofer.main2 [Console Input] | Eingabe
-2016-02-04 21:12:46 | ERROR | ernhofer.Station.Station [Station debian] | Die SQL Syntax ist nicht korrekt!
-2016-02-04 21:12:56 | INFO  | ernhofer.main2 [Console Input] | Programm wird druch den Befehl '
+2016-02-06 11:17:02 | INFO  | ernhofer.main2 [main] | START
+2016-02-06 11:17:02 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
+2016-02-06 11:17:02 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
+2016-02-06 11:17:02 | WARN  | ernhofer.main2 [Console Input] | Eingabe
+2016-02-06 11:17:26 | INFO  | ernhofer.main2 [Console Input] | Programm wird druch den Befehl '
 exit' beendet
