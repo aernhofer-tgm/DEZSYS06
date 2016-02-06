@@ -67,14 +67,14 @@ public class TransactionManager extends Thread{
             }
             if(ack+nck+timeout==anzahlConsumer&&anzahlConsumer>0){
                 logger.debug("ACK: "+ack+", NCK: "+nck+", Timeout: "+timeout);
-                System.out.println("ACK: " + ack + ", NCK: " + nck + ", Timeout: " + timeout);
+                System.out.println("\nACK: " + ack + ", NCK: " + nck + ", Timeout: " + timeout);
                 if(ack==anzahlConsumer){
                     producer.send("commit");
                     logger.debug("COMMIT");
-                    System.out.println("COMMIT");
+                    System.out.println("==>COMMIT");
                 }else{
                     producer.send("abort");
-                    logger.warn("ABORT");
+                    logger.warn("==>ABORT");
                 }
                 ack=0;
                 nck=0;
@@ -168,7 +168,6 @@ public class TransactionManager extends Thread{
         Runnable ra = new Runnable() {
             @Override
             public void run() {
-                logger.warn("Eingabe");
                 Scanner scanner = new Scanner(System.in);
                 scanner.useDelimiter(";");
                 while (scanner.hasNext()) {
@@ -194,7 +193,7 @@ public class TransactionManager extends Thread{
         t.setName("Console Input");
         t.start();
 
-        System.out.println("Geben Sie etwas ein!");
+        System.out.println("\nGeben Sie etwas ein!");
     }
 
 }

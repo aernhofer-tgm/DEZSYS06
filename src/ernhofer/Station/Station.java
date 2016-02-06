@@ -85,6 +85,7 @@ public class Station{
         connection.connect();
         producer.connect();
         producer.send("anmelden");
+        logger.info("Verbindung zu " + connection.getAdress() + " wurder hergestellt.");
     }
 
     public void listen(){

@@ -46,7 +46,6 @@ public class example {
             try {
                 station.connect();
                 station.listen();
-                logger.info("Verbindung zu "+station.getAddress()+" wurder hergestellt.");
             }catch (SQLException e){
                 logger.error("Konnte keine Verbindung zu "+station.getAddress()+" herstellen.");
             }
