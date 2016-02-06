@@ -43,7 +43,6 @@ public class example {
         stationen.add(new Station(new MySQLConnection("192.168.48.237")));
 
         for(Station station:stationen) {
-            System.out.println(station.getAddress());
             try {
                 station.connect();
                 station.listen();
@@ -53,12 +52,9 @@ public class example {
             }
         }
 
-        //TODO: Programm läuft weiter weil Station nicht beendet in station
-
         Runnable ra = new Runnable() {
             @Override
             public void run() {
-                logger.warn("Eingabe");
                 Scanner scanner = new Scanner(System.in);
                 scanner.useDelimiter(";");
                 while (scanner.hasNext()) {
@@ -67,11 +63,11 @@ public class example {
                     // check if line contains "exit"
                     //TODO: Contains auf equals aendern!!!!! -> schwer weil token moeglicherweisse \n besitzt
                     if (token.toLowerCase().contains("exit")) {
-                        logger.info("Programm wird druch den Befehl '"+token+"' beendet");
-                        tm.end();
+                        logger.info("Programm wird beendet");
                         for(Station station:stationen) {
                             station.close();
                         }
+                        tm.end();
                         break;
                     }else {
                         tm.send(token);
@@ -87,7 +83,7 @@ public class example {
         t.setName("Console Input");
         t.start();
 
-        System.out.println("Geben Sie etwas ein!");
+        System.out.println("\nGeben Sie etwas ein!");
     }
 }
 

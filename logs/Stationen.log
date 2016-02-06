@@ -1,0 +1,14 @@
+<2016-02-06 16:19:56> INFO : [main]: Starten der Station debian
+<2016-02-06 16:19:56> INFO : [main]: Starten der Station 192.168.48.237
+<2016-02-06 16:20:06> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'XA START "dezsys06"'
+<2016-02-06 16:20:06> INFO : [Station debian]: Ausfuehren des Befehls: 'XA START "dezsys06"'
+<2016-02-06 16:20:06> INFO : [Station debian]: Ausfuehren des Befehls: 'select * from wahl'
+<2016-02-06 16:20:06> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'select * from wahl'
+<2016-02-06 16:20:06> INFO : [Station debian]: Ausfuehren des Befehls: 'XA END "dezsys06"'
+<2016-02-06 16:20:06> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'XA END "dezsys06"'
+<2016-02-06 16:20:06> INFO : [Station debian]: Ausfuehren des Befehls: 'XA PREPARE "dezsys06"'
+<2016-02-06 16:20:06> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'XA PREPARE "dezsys06"'
+<2016-02-06 16:20:07> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'XA COMMIT "dezsys06"'
+<2016-02-06 16:20:07> INFO : [Station debian]: Ausfuehren des Befehls: 'XA COMMIT "dezsys06"'
+<2016-02-06 16:20:21> INFO : [Console Input]: Beenden der Station debian
+<2016-02-06 16:20:21> INFO : [Console Input]: Beenden der Station 192.168.48.237

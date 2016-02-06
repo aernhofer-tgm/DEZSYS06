@@ -1,8 +1,25 @@
-2016-02-06 15:01:47 | INFO  | ernhofer.example [main] | START
-2016-02-06 15:01:47 | INFO  | ernhofer.example [main] | Verbindung zu debian wurder hergestellt.
-2016-02-06 15:01:47 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
-2016-02-06 15:01:47 | INFO  | ernhofer.example [main] | Verbindung zu 192.168.48.237 wurder hergestellt.
-2016-02-06 15:01:47 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
-2016-02-06 15:01:47 | WARN  | ernhofer.example [Console Input] | Eingabe
-2016-02-06 15:02:21 | INFO  | ernhofer.example [Console Input] | Programm wird druch den Befehl '
-exit' beendet
+2016-02-06 16:19:55 | INFO  | ernhofer.example [main] | START
+2016-02-06 16:19:55 | INFO  | ernhofer.transactionManager.TransactionManager [main] | Starten des Transaktionsmanagers
+2016-02-06 16:19:56 | INFO  | ernhofer.Station.Station [main] | Starten der Station debian
+2016-02-06 16:19:56 | INFO  | ernhofer.example [main] | Verbindung zu debian wurder hergestellt.
+2016-02-06 16:19:56 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
+2016-02-06 16:19:56 | INFO  | ernhofer.Station.Station [main] | Starten der Station 192.168.48.237
+2016-02-06 16:19:56 | INFO  | ernhofer.example [main] | Verbindung zu 192.168.48.237 wurder hergestellt.
+2016-02-06 16:19:56 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
+2016-02-06 16:20:06 | INFO  | ernhofer.transactionManager.TransactionManager [Console Input] | Sendet Befehl: 'select * from wahl'
+2016-02-06 16:20:06 | INFO  | ernhofer.Station.Station [Station 192.168.48.237] | Ausfuehren des Befehls: 'XA START "dezsys06"'
+2016-02-06 16:20:06 | INFO  | ernhofer.Station.Station [Station debian] | Ausfuehren des Befehls: 'XA START "dezsys06"'
+2016-02-06 16:20:06 | INFO  | ernhofer.Station.Station [Station debian] | Ausfuehren des Befehls: 'select * from wahl'
+2016-02-06 16:20:06 | INFO  | ernhofer.Station.Station [Station 192.168.48.237] | Ausfuehren des Befehls: 'select * from wahl'
+2016-02-06 16:20:06 | INFO  | ernhofer.Station.Station [Station debian] | Ausfuehren des Befehls: 'XA END "dezsys06"'
+2016-02-06 16:20:06 | INFO  | ernhofer.Station.Station [Station 192.168.48.237] | Ausfuehren des Befehls: 'XA END "dezsys06"'
+2016-02-06 16:20:06 | INFO  | ernhofer.Station.Station [Station debian] | Ausfuehren des Befehls: 'XA PREPARE "dezsys06"'
+2016-02-06 16:20:06 | INFO  | ernhofer.Station.Station [Station 192.168.48.237] | Ausfuehren des Befehls: 'XA PREPARE "dezsys06"'
+2016-02-06 16:20:07 | INFO  | ernhofer.Station.Station [Station 192.168.48.237] | Ausfuehren des Befehls: 'XA COMMIT "dezsys06"'
+2016-02-06 16:20:07 | INFO  | ernhofer.Station.Station [Station debian] | Ausfuehren des Befehls: 'XA COMMIT "dezsys06"'
+2016-02-06 16:20:21 | INFO  | ernhofer.example [Console Input] | Programm wird beendet
+2016-02-06 16:20:21 | INFO  | ernhofer.Station.Station [Console Input] | Beenden der Station debian
+2016-02-06 16:20:21 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | Eine Verbindung wurde abgemeldet
+2016-02-06 16:20:21 | INFO  | ernhofer.Station.Station [Console Input] | Beenden der Station 192.168.48.237
+2016-02-06 16:20:21 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | Eine Verbindung wurde abgemeldet
+2016-02-06 16:20:21 | INFO  | ernhofer.transactionManager.TransactionManager [Console Input] | Beenden des Transaktionsmanagers

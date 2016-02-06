@@ -4,8 +4,7 @@ import com.mysql.jdbc.CommunicationsException;
 import com.mysql.jdbc.exceptions.MySQLNonTransientConnectionException;
 import ernhofer.connection.jms.Producer;
 import ernhofer.connection.jms.Subscriber;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.log4j.*;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -25,6 +24,20 @@ public class Station{
     private static final Logger logger = LogManager.getLogger(Station.class.getName());
 
     public Station(Connection connection) {
+
+        try {
+            PatternLayout layout = new PatternLayout( "<%d{yyyy-MM-dd HH:mm:ss}> %-5p: [%t]: %m%n" );
+            //ConsoleAppender consoleAppender = new ConsoleAppender( layout );
+            //logger.addAppender( consoleAppender );
+            //Layout, File, keep old data
+            FileAppender fileAppender = new FileAppender( layout, "logs/Stationen.log", false );
+            logger.addAppender( fileAppender );
+            // ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
+            logger.setLevel( Level.INFO );
+        } catch( Exception ex ) {
+            System.out.println(ex);
+        }
+
         this.producer = new Producer();
         this.producer.setTopic("antwort");
         this.connection = connection;
@@ -41,10 +54,8 @@ public class Station{
                         //execute(query);
                         if(textMessage.getText().equals("commit")){
                             doCommit();
-                            System.out.println("COMMIT!!!");
                         }else if(textMessage.getText().equals("abort")) {
                             doAbort();
-                            System.out.println("Abort!!!");
                         }else if(transaction(query)){
                             //Erfolgreich
                             producer.send("ACK");
@@ -69,10 +80,10 @@ public class Station{
     }
 
     public void connect() throws SQLException{
+        logger.info("Starten der Station "+connection.getAdress());
         subscriber.connect();
         connection.connect();
         producer.connect();
-
         producer.send("anmelden");
     }
 
@@ -130,7 +141,7 @@ public class Station{
         } catch (SQLException e) {
             switch (e.getErrorCode()){
                 case 1399:
-                    System.out.println("Error bei abort nummer 1399 bla bla oben");
+                    logger.error("Error bei den Verteilten Transaktionen",e);
                     break;
                 case 0:
                     throw new MySQLNonTransientConnectionException();
@@ -146,10 +157,12 @@ public class Station{
     }
 
     public void send(String message){
+        logger.info("Sendet '"+message+"' an den TM");
         producer.send(message);
     }
 
     public void close(){
+        logger.info("Beenden der Station "+getAddress());
         producer.send("abmelden");
         subscriber.close();
         producer.close();

@@ -1,0 +1,7 @@
+<2016-02-06 16:19:55> INFO : [main]: Starten des Transaktionsmanagers
+<2016-02-06 16:19:56> INFO : [TM Subscriber]: neue Verbindung
+<2016-02-06 16:19:56> INFO : [TM Subscriber]: neue Verbindung
+<2016-02-06 16:20:06> INFO : [Console Input]: Sendet Befehl: 'select * from wahl'
+<2016-02-06 16:20:21> INFO : [TM Subscriber]: Eine Verbindung wurde abgemeldet
+<2016-02-06 16:20:21> INFO : [TM Subscriber]: Eine Verbindung wurde abgemeldet
+<2016-02-06 16:20:21> INFO : [Console Input]: Beenden des Transaktionsmanagers

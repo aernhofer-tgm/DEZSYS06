@@ -21,7 +21,7 @@ public class MySQLConnection implements ernhofer.Station.Connection{
     final String USER;
     final String PASS;
     final String DB_URL;
-    private static final org.apache.log4j.Logger logger = LogManager.getLogger(MySQLConnection.class.getName());
+    private static final org.apache.log4j.Logger logger = LogManager.getLogger(Station.class.getName());
     Connection conn;
     Statement stmt;
 
@@ -54,13 +54,13 @@ public class MySQLConnection implements ernhofer.Station.Connection{
     }
 
     public void connect() throws SQLException{
-        System.out.println("Connecting to database..."+DB_URL);
+        System.out.println("Connecting to database..."+ADDRESS+"\\"+DB);
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
-            System.out.println("Creating statement...");
             stmt = conn.createStatement();
     }
 
     public ResultSet execute(String query) throws SQLException, SocketTimeoutException, CommunicationsException, MySQLNonTransientConnectionException {
+        logger.info("Ausfuehren des Befehls: '"+query+"'");
         if(query.toLowerCase().contains("select")) {
             return stmt.executeQuery(query);
         }else{
@@ -98,10 +98,10 @@ public class MySQLConnection implements ernhofer.Station.Connection{
             System.out.print("\n");
             rs.close();
         } catch (SQLException e) {
-            System.out.println("Keine Ausgabe Moeglich!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("Keine Ausgabe Moeglich!");
             //e.printStackTrace();
         }catch (java.lang.NullPointerException e){
-            System.out.println("Nichts zum ausgeben da...");
+            //Keine Ausgabe vorhanden
         }
         return null;
     }

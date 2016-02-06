@@ -3,9 +3,7 @@ package ernhofer.transactionManager;
 import ernhofer.Station.Station;
 import ernhofer.connection.jms.Producer;
 import ernhofer.connection.jms.Subscriber;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.*;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -30,6 +28,19 @@ public class TransactionManager extends Thread{
     private Subscriber subscriber;
 
     public TransactionManager(){
+        try {
+            PatternLayout layout = new PatternLayout( "<%d{yyyy-MM-dd HH:mm:ss}> %-5p: [%t]: %m%n" );
+            //ConsoleAppender consoleAppender = new ConsoleAppender( layout );
+            //logger.addAppender( consoleAppender );
+            //Layout, File, keep old data
+            FileAppender fileAppender = new FileAppender( layout, "logs/TransaktionsManager.log", false );
+            logger.addAppender( fileAppender );
+            // ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
+            logger.setLevel( Level.INFO );
+        } catch( Exception ex ) {
+            System.out.println(ex);
+        }
+
         producer = new Producer();
         subscriber = new Subscriber() {
             @Override
@@ -47,6 +58,7 @@ public class TransactionManager extends Thread{
 
     @Override
     public void run(){
+        Thread.currentThread().setName("Transaktionsmanager");
         while(running){
             try {
                 sleep(1000);
@@ -54,33 +66,36 @@ public class TransactionManager extends Thread{
                 e.printStackTrace();
             }
             if(ack+nck+timeout==anzahlConsumer&&anzahlConsumer>0){
-                System.out.println("ACK: "+ack+", NCK: "+nck+", Timeout: "+timeout);
+                logger.debug("ACK: "+ack+", NCK: "+nck+", Timeout: "+timeout);
+                System.out.println("ACK: " + ack + ", NCK: " + nck + ", Timeout: " + timeout);
                 if(ack==anzahlConsumer){
                     producer.send("commit");
+                    logger.debug("COMMIT");
+                    System.out.println("COMMIT");
                 }else{
                     producer.send("abort");
+                    logger.warn("ABORT");
                 }
                 ack=0;
                 nck=0;
                 timeout=0;
             }
-
-            //System.out.println(running);
         }
     }
 
     public void begin(){
+        logger.info("Starten des Transaktionsmanagers");
         producer.connect();
         subscriber.connect();
         subscriber.listen();
         this.start();
-        //this.read();
     }
 
     public void end(){
         running = false;
         producer.close();
         subscriber.close();
+        logger.info("Beenden des Transaktionsmanagers");
     }
 
     public void read(Message message){
@@ -117,6 +132,7 @@ public class TransactionManager extends Thread{
     }
 
     public void send(String message){
+        logger.info("Sendet Befehl: '"+message+"'");
         producer.send(message);
     }
 
@@ -127,6 +143,7 @@ public class TransactionManager extends Thread{
 
     public void abmelden(){
         this.anzahlConsumer--;
+        logger.info("Eine Verbindung wurde abgemeldet");
     }
 
     //Fuer ACK/NOK
