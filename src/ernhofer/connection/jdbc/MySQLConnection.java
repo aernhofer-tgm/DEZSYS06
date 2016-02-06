@@ -1,9 +1,14 @@
 package ernhofer.connection.jdbc;
 
+import com.mysql.jdbc.CommunicationsException;
+import com.mysql.jdbc.exceptions.MySQLNonTransientConnectionException;
 import ernhofer.Station.*;
+import org.apache.log4j.LogManager;
 
+import java.net.SocketTimeoutException;
 import java.sql.*;
 import java.sql.Connection;
+import java.util.logging.Logger;
 
 /**
  * Created by andie on 03.02.2016.
@@ -16,6 +21,7 @@ public class MySQLConnection implements ernhofer.Station.Connection{
     final String USER;
     final String PASS;
     final String DB_URL;
+    private static final org.apache.log4j.Logger logger = LogManager.getLogger(MySQLConnection.class.getName());
     Connection conn;
     Statement stmt;
 
@@ -47,18 +53,14 @@ public class MySQLConnection implements ernhofer.Station.Connection{
         }
     }
 
-    public void connect(){
+    public void connect() throws SQLException{
         System.out.println("Connecting to database..."+DB_URL);
-        try {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
-    public ResultSet execute(String query) throws SQLException {
+    public ResultSet execute(String query) throws SQLException, SocketTimeoutException, CommunicationsException, MySQLNonTransientConnectionException {
         if(query.toLowerCase().contains("select")) {
             return stmt.executeQuery(query);
         }else{
@@ -72,8 +74,8 @@ public class MySQLConnection implements ernhofer.Station.Connection{
             ResultSetMetaData rsmd = null;
             rsmd = rs.getMetaData();
 
-            printColTypes(rs);
-            System.out.println("");
+            //printColTypes(rs);
+            //System.out.println("");
 
             int numberOfColumns = rsmd.getColumnCount();
 

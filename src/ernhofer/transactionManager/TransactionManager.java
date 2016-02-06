@@ -1,13 +1,18 @@
 package ernhofer.transactionManager;
 
+import ernhofer.Station.Station;
 import ernhofer.connection.jms.Producer;
 import ernhofer.connection.jms.Subscriber;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Scanner;
 
 /**
@@ -20,6 +25,7 @@ public class TransactionManager extends Thread{
     private int anzahlConsumer;
     private int ack;
     private int nck;
+    private int timeout;
     private Producer producer;
     private Subscriber subscriber;
 
@@ -35,6 +41,7 @@ public class TransactionManager extends Thread{
         anzahlConsumer = 0;
         ack=0;
         nck=0;
+        timeout=0;
         running=true;
     }
 
@@ -46,9 +53,8 @@ public class TransactionManager extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            if(ack+nck==anzahlConsumer&&anzahlConsumer>0){
-                System.out.println("ACK: "+ack+", NCK: "+nck);
+            if(ack+nck+timeout==anzahlConsumer&&anzahlConsumer>0){
+                System.out.println("ACK: "+ack+", NCK: "+nck+", Timeout: "+timeout);
                 if(ack==anzahlConsumer){
                     producer.send("commit");
                 }else{
@@ -56,6 +62,7 @@ public class TransactionManager extends Thread{
                 }
                 ack=0;
                 nck=0;
+                timeout=0;
             }
 
             //System.out.println(running);
@@ -94,6 +101,9 @@ public class TransactionManager extends Thread{
                     case "NCK":
                         nck++;
                         break;
+                    case "TIMEOUT":
+                        timeout++;
+                        break;
                     default:
                         System.out.println("TM Received message: '"
                                 + textMessage.getText() + "'");
@@ -123,4 +133,51 @@ public class TransactionManager extends Thread{
     public void answer(){
 
     }
+
+    public static void main (String[] args){
+        try {
+            Properties props = new Properties();
+            props.load(new FileInputStream("logs/log4j.properties"));
+            PropertyConfigurator.configure(props);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        logger.info("START");
+
+        TransactionManager tm = new TransactionManager();
+        tm.begin();
+
+        Runnable ra = new Runnable() {
+            @Override
+            public void run() {
+                logger.warn("Eingabe");
+                Scanner scanner = new Scanner(System.in);
+                scanner.useDelimiter(";");
+                while (scanner.hasNext()) {
+                    String token = scanner.next();
+                    //System.out.println(token);
+                    // check if line contains "exit"
+                    //TODO: Contains auf equals aendern!!!!! -> schwer weil token moeglicherweisse \n besitzt
+                    if (token.toLowerCase().contains("exit")) {
+                        logger.info("Programm wird druch den Befehl '"+token+"' beendet");
+                        tm.end();
+                        break;
+                    }else {
+                        tm.send(token);
+                    }
+                }
+                if (scanner != null) {
+                    scanner.close();
+                }
+
+            }
+        };
+        Thread t = new Thread(ra);
+        t.setName("Console Input");
+        t.start();
+
+        System.out.println("Geben Sie etwas ein!");
+    }
+
 }

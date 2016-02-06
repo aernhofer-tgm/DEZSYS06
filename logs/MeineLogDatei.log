@@ -1,6 +1,8 @@
-2016-02-06 11:17:02 | INFO  | ernhofer.main2 [main] | START
-2016-02-06 11:17:02 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
-2016-02-06 11:17:02 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
-2016-02-06 11:17:02 | WARN  | ernhofer.main2 [Console Input] | Eingabe
-2016-02-06 11:17:26 | INFO  | ernhofer.main2 [Console Input] | Programm wird druch den Befehl '
+2016-02-06 15:01:47 | INFO  | ernhofer.example [main] | START
+2016-02-06 15:01:47 | INFO  | ernhofer.example [main] | Verbindung zu debian wurder hergestellt.
+2016-02-06 15:01:47 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
+2016-02-06 15:01:47 | INFO  | ernhofer.example [main] | Verbindung zu 192.168.48.237 wurder hergestellt.
+2016-02-06 15:01:47 | INFO  | ernhofer.transactionManager.TransactionManager [TM Subscriber] | neue Verbindung
+2016-02-06 15:01:47 | WARN  | ernhofer.example [Console Input] | Eingabe
+2016-02-06 15:02:21 | INFO  | ernhofer.example [Console Input] | Programm wird druch den Befehl '
 exit' beendet

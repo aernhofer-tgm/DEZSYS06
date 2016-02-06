@@ -1,5 +1,7 @@
 package ernhofer.Station;
 
+import com.mysql.jdbc.CommunicationsException;
+import com.mysql.jdbc.exceptions.MySQLNonTransientConnectionException;
 import ernhofer.connection.jms.Producer;
 import ernhofer.connection.jms.Subscriber;
 import org.apache.log4j.LogManager;
@@ -8,6 +10,7 @@ import org.apache.log4j.Logger;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
+import java.net.SocketTimeoutException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -44,29 +47,28 @@ public class Station{
                             System.out.println("Abort!!!");
                         }else if(transaction(query)){
                             //Erfolgreich
-                            //TODO
                             producer.send("ACK");
                             System.out.println("Transaktion erfolgreich Station: "+Thread.currentThread().getName());
-                            //doCommit();
                         }else{
                             //Fehlgeschlagen
-                            //TODO
                             producer.send("NCK");
                             System.out.println("Transaktion fehlgeschlagen"+Thread.currentThread().getName());
-                            //doAbort();
                         }
-                        //return textMessage.getText();
                     }
                 } catch (JMSException e) {
                     System.out.println("Caught:" + e);
                     e.printStackTrace();
+                } catch (CommunicationsException | SocketTimeoutException e) {
+                    producer.send("TIMEOUT");
+                    logger.error("Timeout beim ausführen des Befehles!",e);
+                } catch (MySQLNonTransientConnectionException e) {
+                    logger.error("Es besteht keine Verbindung!",e);
                 }
-                //return null;
             }
         };
     }
 
-    public void connect(){
+    public void connect() throws SQLException{
         subscriber.connect();
         connection.connect();
         producer.connect();
@@ -78,7 +80,7 @@ public class Station{
         subscriber.listen();
     }
 
-    public void execute(String query){
+    public void execute(String query) throws SocketTimeoutException{
         try {
             connection.print(connection.execute(query));
         } catch (SQLException e) {
@@ -86,7 +88,7 @@ public class Station{
         }
     }
 
-    public boolean transaction(String query){
+    public boolean transaction(String query) throws CommunicationsException, SocketTimeoutException, MySQLNonTransientConnectionException {
         try {
             connection.execute("XA START \"dezsys06\"");
             ResultSet rm = connection.execute(query);
@@ -95,7 +97,7 @@ public class Station{
             connection.execute("XA PREPARE \"dezsys06\"");
             return true;
         } catch (SQLException e) {
-            switch (e.getErrorCode()){
+            switch (e.getErrorCode()) {
                 case 1054:
                     logger.error("Umlaute sind nicht erlaubt!");
                     break;
@@ -106,15 +108,14 @@ public class Station{
                     logger.error("Die angegebene Tabelle ist nicht vorhanden!");
                     break;
                 default:
-                    System.out.println("Errorcode: "+e.getErrorCode() + "von Station: "+Thread.currentThread().getName());
-                    e.printStackTrace();
-                    break;
+                    logger.error("Errorcode: " + e.getErrorCode() + "von Station: " + Thread.currentThread().getName()+"\n",e);
+                    throw new SocketTimeoutException();
             }
             return false;
         }
     }
 
-    public void doCommit(){
+    public void doCommit() throws SocketTimeoutException {
         try {
             connection.execute("XA COMMIT \"dezsys06\"");
         } catch (SQLException e) {
@@ -122,13 +123,26 @@ public class Station{
         }
     }
 
-    public void doAbort(){
+    public void doAbort() throws CommunicationsException, SocketTimeoutException , MySQLNonTransientConnectionException{
         try {
             connection.execute("XA END \"dezsys06\"");
             connection.execute("XA ROLLBACK \"dezsys06\"");
         } catch (SQLException e) {
-            e.printStackTrace();
+            switch (e.getErrorCode()){
+                case 1399:
+                    System.out.println("Error bei abort nummer 1399 bla bla oben");
+                    break;
+                case 0:
+                    throw new MySQLNonTransientConnectionException();
+                default:
+                    System.out.println("Errorcode bei Abort: "+e.getErrorCode());
+                    e.printStackTrace();
+            }
         }
+    }
+
+    public String getAddress(){
+        return connection.getAdress();
     }
 
     public void send(String message){

@@ -9,6 +9,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
@@ -17,9 +18,9 @@ import java.util.Scanner;
 /**
  * Created by andie on 03.02.2016.
  */
-public class main2 {
+public class example {
 
-    private static final Logger logger = LogManager.getLogger(main2.class);
+    private static final Logger logger = LogManager.getLogger(example.class);
 
     public static void main(String args[]) {
 
@@ -36,16 +37,23 @@ public class main2 {
         TransactionManager tm = new TransactionManager();
         tm.begin();
 
-        Station[] stationen = new Station[2];
+        ArrayList<Station> stationen = new ArrayList<Station>();
 
-        stationen[0] = new Station(new MySQLConnection());
-        stationen[1] = new Station(new MySQLConnection("192.168.48.237"));
+        stationen.add(new Station(new MySQLConnection()));
+        stationen.add(new Station(new MySQLConnection("192.168.48.237")));
 
         for(Station station:stationen) {
-            station.connect();
-            station.listen();
+            System.out.println(station.getAddress());
+            try {
+                station.connect();
+                station.listen();
+                logger.info("Verbindung zu "+station.getAddress()+" wurder hergestellt.");
+            }catch (SQLException e){
+                logger.error("Konnte keine Verbindung zu "+station.getAddress()+" herstellen.");
+            }
         }
 
+        //TODO: Programm läuft weiter weil Station nicht beendet in station
 
         Runnable ra = new Runnable() {
             @Override
