@@ -1,3 +1,16 @@
-<2016-02-06 16:40:50> INFO : [main]: Starten der Station debian
-<2016-02-06 16:40:50> INFO : [main]: Verbindung zu debian wurder hergestellt.
-<2016-02-06 16:40:53> INFO : [Console Input]: Beenden der Station debian
+<2016-02-08 12:05:44> INFO : [main]: Starten der Station debian
+<2016-02-08 12:05:44> INFO : [main]: Verbindung zu debian wurder hergestellt.
+<2016-02-08 12:05:44> INFO : [main]: Starten der Station 192.168.48.237
+<2016-02-08 12:05:44> INFO : [main]: Verbindung zu 192.168.48.237 wurder hergestellt.
+<2016-02-08 12:05:51> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'XA START "dezsys06"'
+<2016-02-08 12:05:51> INFO : [Station debian]: Ausfuehren des Befehls: 'XA START "dezsys06"'
+<2016-02-08 12:05:51> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'select * from wahl'
+<2016-02-08 12:05:51> INFO : [Station debian]: Ausfuehren des Befehls: 'select * from wahl'
+<2016-02-08 12:05:51> INFO : [Station debian]: Ausfuehren des Befehls: 'XA END "dezsys06"'
+<2016-02-08 12:05:51> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'XA END "dezsys06"'
+<2016-02-08 12:05:51> INFO : [Station debian]: Ausfuehren des Befehls: 'XA PREPARE "dezsys06"'
+<2016-02-08 12:05:51> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'XA PREPARE "dezsys06"'
+<2016-02-08 12:05:51> INFO : [Station 192.168.48.237]: Ausfuehren des Befehls: 'XA COMMIT "dezsys06"'
+<2016-02-08 12:05:51> INFO : [Station debian]: Ausfuehren des Befehls: 'XA COMMIT "dezsys06"'
+<2016-02-08 12:06:01> INFO : [Console Input]: Beenden der Station debian
+<2016-02-08 12:06:01> INFO : [Console Input]: Beenden der Station 192.168.48.237

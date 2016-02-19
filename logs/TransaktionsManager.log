@@ -1,5 +1,1 @@
-<2016-02-06 16:37:43> INFO : [main]: Starten des Transaktionsmanagers
-<2016-02-06 16:37:48> INFO : [Console Input]: Sendet Befehl: 'select * from wahl'
-<2016-02-06 16:37:53> INFO : [Console Input]: Programm wird druch den Befehl '
-exit' beendet
-<2016-02-06 16:37:53> INFO : [Console Input]: Beenden des Transaktionsmanagers
+<2016-02-19 12:21:54> INFO : [main]: Starten des Transaktionsmanagers

@@ -21,9 +21,7 @@ public class TransactionManager extends Thread{
     private static final Logger logger = LogManager.getLogger(TransactionManager.class.getName());
     private boolean running;
     private int anzahlConsumer;
-    private int ack;
-    private int nck;
-    private int timeout;
+    private int ack, nck, yes, no, timeout;
     private Producer producer;
     private Subscriber subscriber;
 
@@ -52,6 +50,8 @@ public class TransactionManager extends Thread{
         anzahlConsumer = 0;
         ack=0;
         nck=0;
+        yes=0;
+        no=0;
         timeout=0;
         running=true;
     }
@@ -66,9 +66,15 @@ public class TransactionManager extends Thread{
                 e.printStackTrace();
             }
             if(ack+nck+timeout==anzahlConsumer&&anzahlConsumer>0){
-                logger.debug("ACK: "+ack+", NCK: "+nck+", Timeout: "+timeout);
+                logger.debug("ACK: "+ack+", NCK: "+nck+", TIMEOUT: "+timeout);
                 System.out.println("\nACK: " + ack + ", NCK: " + nck + ", Timeout: " + timeout);
-                if(ack==anzahlConsumer){
+                ack=0;
+                nck=0;
+                timeout=0;
+            }else if(yes+no+timeout==anzahlConsumer&&anzahlConsumer>0){
+                logger.debug("YES: "+yes+", NO:  "+no+", TIMEOUT: "+timeout);
+                System.out.println("\nYES: "+yes+", NO: "+no+", TIMEOUT: "+timeout);
+                if(yes==anzahlConsumer){
                     producer.send("commit");
                     logger.debug("COMMIT");
                     System.out.println("==>COMMIT");
@@ -76,8 +82,8 @@ public class TransactionManager extends Thread{
                     producer.send("abort");
                     logger.warn("==>ABORT");
                 }
-                ack=0;
-                nck=0;
+                yes=0;
+                no=0;
                 timeout=0;
             }
         }
@@ -116,6 +122,12 @@ public class TransactionManager extends Thread{
                     case "NCK":
                         nck++;
                         break;
+                    case "YES":
+                        yes++;
+                        break;
+                    case "NO":
+                        no++;
+                        break;
                     case "TIMEOUT":
                         timeout++;
                         break;
@@ -144,11 +156,6 @@ public class TransactionManager extends Thread{
     public void abmelden(){
         this.anzahlConsumer--;
         logger.info("Eine Verbindung wurde abgemeldet");
-    }
-
-    //Fuer ACK/NOK
-    public void answer(){
-
     }
 
     public static void main (String[] args){

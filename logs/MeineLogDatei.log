@@ -1,3 +1,2 @@
-2016-02-06 16:40:50 | INFO  | ernhofer.Station.Station [main] | Starten der Station debian
-2016-02-06 16:40:50 | INFO  | ernhofer.Station.Station [main] | Verbindung zu debian wurder hergestellt.
-2016-02-06 16:40:53 | INFO  | ernhofer.Station.Station [Console Input] | Beenden der Station debian
+2016-02-19 12:21:52 | INFO  | ernhofer.example [main] | START
+2016-02-19 12:21:54 | INFO  | ernhofer.transactionManager.TransactionManager [main] | Starten des Transaktionsmanagers

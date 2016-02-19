@@ -69,7 +69,14 @@ public class example {
                         tm.end();
                         break;
                     }else {
-                        tm.send(token);
+                        try {
+                            tm.send("start");
+                            tm.send(token);
+                            tm.send("end");
+                            tm.send("prepare");
+                        }catch (Exception e){
+
+                        }
                     }
                 }
                 if (scanner != null) {

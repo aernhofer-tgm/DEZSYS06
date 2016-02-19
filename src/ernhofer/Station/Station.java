@@ -54,15 +54,20 @@ public class Station{
                         //execute(query);
                         if(textMessage.getText().equals("commit")){
                             doCommit();
+                            producer.send("ACK");
                         }else if(textMessage.getText().equals("abort")) {
                             doAbort();
+                            producer.send("NCK");
+                        }else if(textMessage.getText().equals("start")) {
+                        }else if(textMessage.getText().equals("end")) {
+                        }else if(textMessage.getText().equals("prepare")) {
                         }else if(transaction(query)){
                             //Erfolgreich
-                            producer.send("ACK");
+                            producer.send("YES");
                             System.out.println("Transaktion erfolgreich Station: "+Thread.currentThread().getName());
                         }else{
                             //Fehlgeschlagen
-                            producer.send("NCK");
+                            producer.send("NO");
                             System.out.println("Transaktion fehlgeschlagen"+Thread.currentThread().getName());
                         }
                     }
